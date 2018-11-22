@@ -9,6 +9,8 @@ int pcursmonst; // idb
 int icursW28; // idb
 void *pCursCels;
 int icursH; // weak
+
+// inv_item value
 char pcursinvitem; // weak
 int icursW; // weak
 char pcursitem; // weak
@@ -20,8 +22,8 @@ int dword_4B8CCC; // weak
 int pcurs; // idb
 
 
-/* data */
-int InvItemWidth[180] =
+/* rdata */
+const int InvItemWidth[180] =
 {
   0,
   33,
@@ -204,7 +206,7 @@ int InvItemWidth[180] =
   56,
   56
 };
-int InvItemHeight[180] =
+const int InvItemHeight[180] =
 {
   0,
   29,
@@ -428,6 +430,10 @@ void __fastcall SetCursor(int i)
 	SetICursor(i);
 }
 // 4B8C9C: using guessed type int cursH;
+
+void __fastcall NewCursor(int i) {
+	SetCursor(i);
+}
 
 void __cdecl InitLevelCursor()
 {
@@ -740,7 +746,7 @@ LABEL_40:
 	}
 	if ( sbookflag && MouseX > 320 || (chrflag || questlog) && MouseX < 320 )
 		return;
-	if ( !leveltype )
+	if ( leveltype == DTYPE_TOWN )
 	{
 		if ( v83 )
 		{
@@ -933,7 +939,7 @@ LABEL_306:
 			if ( !v62 )
 				goto LABEL_272;
 			v61 = v62 <= 0 ? -1 - v62 : v62 - 1;
-			if ( SLOBYTE(object[v61]._oSelFlag) < 2 )
+			if ( object[v61]._oSelFlag < 2 )
 				goto LABEL_272;
 			cursmx = v6;
 			cursmy = v8 + 1;
@@ -944,7 +950,7 @@ LABEL_306:
 			if ( !v60 )
 				goto LABEL_272;
 			v61 = v60 <= 0 ? -1 - v60 : v60 - 1;
-			if ( SLOBYTE(object[v61]._oSelFlag) < 2 )
+			if ( object[v61]._oSelFlag < 2 )
 				goto LABEL_272;
 			cursmy = v8;
 			cursmx = v6 + 1;
@@ -964,7 +970,7 @@ LABEL_272:
 			}
 		}
 		v66 = dObject[1][v27 + 1 + v8];
-		if ( !v66 || (v66 <= 0 ? (v67 = -1 - v66) : (v67 = v66 - 1), SLOBYTE(object[v67]._oSelFlag) < 2) )
+		if ( !v66 || (v66 <= 0 ? (v67 = -1 - v66) : (v67 = v66 - 1), object[v67]._oSelFlag < 2) )
 		{
 LABEL_286:
 			if ( pcursobj != -1 || pcursmonst != -1 )

@@ -2,8 +2,8 @@
 
 #include "../types.h"
 
-int trigflag[5];
-TriggerStruct trigs[5];
+int trigflag[MAXTRIGGERS];
+TriggerStruct trigs[MAXTRIGGERS];
 int TWarpFrom; // weak
 
 int TownDownList[11] = { 716, 715, 719, 720, 721, 723, 724, 725, 726, 727, -1 };
@@ -1227,7 +1227,7 @@ void __cdecl CheckTrigForce()
 					break;
 				default:
 LABEL_14:
-					if ( !leveltype )
+					if ( leveltype == DTYPE_TOWN )
 						goto LABEL_24;
 					if ( trigflag[3] )
 					{
