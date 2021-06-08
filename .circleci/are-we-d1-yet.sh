@@ -3,7 +3,7 @@
 # based on https://github.com/k3rn31p4nic/travis-ci-discord-webhook
 
 # Only run for commits/builds on master, not for PRs for now
-if [[ "$TRAVIS_BRANCH" != "nightly" || $TRAVIS_PULL_REQUEST != "false" ]]; then
+if [[ "$CIRCLE_BRANCH" != "master" ]]; then
   exit
 fi
 
@@ -14,10 +14,10 @@ fi
 
 echo -e "[Webhook]: Sending webhook to Discord...\\n";
 
-AUTHOR_NAME="$(git log -1 "$TRAVIS_COMMIT" --pretty="%aN")"
-COMMITTER_NAME="$(git log -1 "$TRAVIS_COMMIT" --pretty="%cN")"
-COMMIT_SUBJECT="$(git log -1 "$TRAVIS_COMMIT" --pretty="%s")"
-COMMIT_MESSAGE="$(git log -1 "$TRAVIS_COMMIT" --pretty="%b")"
+AUTHOR_NAME="$(git log -1 "$CIRCLE_SHA1" --pretty="%aN")"
+COMMITTER_NAME="$(git log -1 "$CIRCLE_SHA1" --pretty="%cN")"
+COMMIT_SUBJECT="$(git log -1 "$CIRCLE_SHA1" --pretty="%s")"
+COMMIT_MESSAGE="$(git log -1 "$CIRCLE_SHA1" --pretty="%b")"
 
 if [ "$AUTHOR_NAME" == "$COMMITTER_NAME" ]; then
   CREDITS="$AUTHOR_NAME authored & committed"
@@ -27,15 +27,15 @@ fi
 
 TIMESTAMP=$(date --utc +%FT%TZ)
 WEBHOOK_DATA='{
-  "avatar_url": "https://travis-ci.com/images/logos/TravisCI-Mascot-1.png",
+  "avatar_url": "https://www.saaves.com/storage/brochure/logo-circleci-icon1583764538.png",
   "embeds": [ {
     "author": {
-      "name": "Job #'"$TRAVIS_JOB_NUMBER"' (Build #'"$TRAVIS_BUILD_NUMBER"')",
-      "url": "https://travis-ci.com/'"$TRAVIS_REPO_SLUG"'/builds/'"$TRAVIS_BUILD_ID"'",
-      "icon_url": "https://travis-ci.com/images/logos/TravisCI-Mascot-1.png"
+      "name": "'"$3"' (Build #'"$CIRCLE_BUILD_NUM"')",
+      "url": "'"$CIRCLE_BUILD_URL"'",
+      "icon_url": "https://www.saaves.com/storage/brochure/logo-circleci-icon1583764538.png"
     },
-    "title": "['"\`${TRAVIS_COMMIT:0:7}\`"'] '"$COMMIT_SUBJECT"'",
-    "url": "'"https://github.com/$TRAVIS_REPO_SLUG/commit/$TRAVIS_COMMIT"'",
+    "title": "['"\`${CIRCLE_SHA1:0:7}\`"'] '"$COMMIT_SUBJECT"'",
+    "url": "'"https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"'",
     "description": "'"$CREDITS"'",
     "fields": [
       {

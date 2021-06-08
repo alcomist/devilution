@@ -60,6 +60,7 @@
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <MinimalRebuild>true</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -79,9 +80,10 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Source/WinRel\Diablo.exe</OutputFile>
-      <AdditionalDependencies>DiabloUI/WinRel/DiabloUI.lib;3rdParty/Storm/Source/WinRel/Storm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>3rdParty/Storm/Source/WinRel/Storm.lib;3rdParty/PKWare/WinRel/PKWare.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -118,14 +120,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Source/WinDebug\Diablo.exe</OutputFile>
-      <AdditionalDependencies>DiabloUI/WinDebug/DiabloUI.lib;3rdParty/Storm/Source/WinDebug/Storm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DiabloUI/WinDebug/DiabloUI.lib;3rdParty/Storm/Source/WinDebug/Storm.lib;3rdParty/PKWare/WinDebug/PKWare.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3rdParty\PKWare\explode.cpp" />
-    <ClCompile Include="3rdParty\PKWare\implode.cpp" />
     <ClCompile Include="Source\appfat.cpp" />
     <ClCompile Include="Source\automap.cpp" />
     <ClCompile Include="Source\capture.cpp" />
@@ -154,13 +154,16 @@
     <ClCompile Include="Source\init.cpp" />
     <ClCompile Include="Source\interfac.cpp" />
     <ClCompile Include="Source\inv.cpp" />
+    <ClCompile Include="Source\itemdat.cpp" />
     <ClCompile Include="Source\items.cpp" />
     <ClCompile Include="Source\lighting.cpp" />
     <ClCompile Include="Source\loadsave.cpp" />
     <ClCompile Include="Source\logging.cpp" />
     <ClCompile Include="Source\mainmenu.cpp" />
     <ClCompile Include="Source\minitext.cpp" />
+    <ClCompile Include="Source\misdat.cpp" />
     <ClCompile Include="Source\missiles.cpp" />
+    <ClCompile Include="Source\monstdat.cpp" />
     <ClCompile Include="Source\monster.cpp" />
     <ClCompile Include="Source\movie.cpp" />
     <ClCompile Include="Source\mpqapi.cpp" />
@@ -168,6 +171,7 @@
     <ClCompile Include="Source\msgcmd.cpp" />
     <ClCompile Include="Source\multi.cpp" />
     <ClCompile Include="Source\nthread.cpp" />
+    <ClCompile Include="Source\objdat.cpp" />
     <ClCompile Include="Source\objects.cpp" />
     <ClCompile Include="Source\pack.cpp" />
     <ClCompile Include="Source\palette.cpp" />
@@ -182,6 +186,7 @@
     <ClCompile Include="Source\setmaps.cpp" />
     <ClCompile Include="Source\sha.cpp" />
     <ClCompile Include="Source\sound.cpp" />
+    <ClCompile Include="Source\spelldat.cpp" />
     <ClCompile Include="Source\spells.cpp" />
     <ClCompile Include="Source\stores.cpp" />
     <ClCompile Include="Source\sync.cpp" />
@@ -202,7 +207,6 @@
     <ResourceCompile Include="Diablo.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3rdParty\PKWare\pkware.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="resource.h" />
@@ -234,13 +238,16 @@
     <ClInclude Include="Source\init.h" />
     <ClInclude Include="Source\interfac.h" />
     <ClInclude Include="Source\inv.h" />
+    <ClInclude Include="Source\itemdat.h" />
     <ClInclude Include="Source\items.h" />
     <ClInclude Include="Source\lighting.h" />
     <ClInclude Include="Source\loadsave.h" />
     <ClInclude Include="Source\logging.h" />
     <ClInclude Include="Source\mainmenu.h" />
     <ClInclude Include="Source\minitext.h" />
+    <ClInclude Include="Source\misdat.h" />
     <ClInclude Include="Source\missiles.h" />
+    <ClInclude Include="Source\monstdat.h" />
     <ClInclude Include="Source\monster.h" />
     <ClInclude Include="Source\movie.h" />
     <ClInclude Include="Source\mpqapi.h" />
@@ -248,6 +255,7 @@
     <ClInclude Include="Source\msgcmd.h" />
     <ClInclude Include="Source\multi.h" />
     <ClInclude Include="Source\nthread.h" />
+    <ClInclude Include="Source\objdat.h" />
     <ClInclude Include="Source\objects.h" />
     <ClInclude Include="Source\pack.h" />
     <ClInclude Include="Source\palette.h" />
@@ -262,6 +270,7 @@
     <ClInclude Include="Source\setmaps.h" />
     <ClInclude Include="Source\sha.h" />
     <ClInclude Include="Source\sound.h" />
+    <ClInclude Include="Source\spelldat.h" />
     <ClInclude Include="Source\spells.h" />
     <ClInclude Include="Source\stores.h" />
     <ClInclude Include="Source\sync.h" />

@@ -13,10 +13,6 @@
       <UniqueIdentifier>{8003aed2-27a6-444b-8fb0-bb8a59530005}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="PKWare">
-      <UniqueIdentifier>{5dbacde9-4fc8-4776-ba59-92912e0c8ab5}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\appfat.cpp">
@@ -103,6 +99,9 @@
     <ClCompile Include="Source\inv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\itemdat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -121,7 +120,13 @@
     <ClCompile Include="Source\minitext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\misdat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\missiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\monstdat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\monster.cpp">
@@ -143,6 +148,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\nthread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\objdat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\objects.cpp">
@@ -187,6 +195,9 @@
     <ClCompile Include="Source\sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\spelldat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\spells.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -222,12 +233,6 @@
     </ClCompile>
     <ClCompile Include="Source\render.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="3rdParty\PKWare\explode.cpp">
-      <Filter>PKWare</Filter>
-    </ClCompile>
-    <ClCompile Include="3rdParty\PKWare\implode.cpp">
-      <Filter>PKWare</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +333,9 @@
     <ClInclude Include="Source\inv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\itemdat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -346,7 +354,13 @@
     <ClInclude Include="Source\minitext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\misdat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\missiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\monstdat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\monster.h">
@@ -368,6 +382,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\nthread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\objdat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\objects.h">
@@ -410,6 +427,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\spelldat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\spells.h">
@@ -459,9 +479,6 @@
     </ClInclude>
     <ClInclude Include="types.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="3rdParty\PKWare\pkware.h">
-      <Filter>PKWare</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

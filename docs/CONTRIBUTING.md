@@ -3,6 +3,10 @@
 This guide outlines useful resources, tools and processes for contribution to
 Devilution.
 
+## Code style guide
+
+[The code style guide](https://github.com/diasurgical/devilution/wiki/Code-Style) is evolving with the project.
+
 ## Useful Repos
 
 * [diasurgical/scalpel](https://github.com/diasurgical/scalpel) - uploaded .SYM files from each release of Diablo 1 on Playstation
@@ -47,7 +51,7 @@ void __fastcall drlg_l1_load_dun(char *dun_path, int view_x, int view_y);
 
 ### Interactive Disassembler Usage
 
-* Open the `Diablo.exe` (verison 1.09b in IDA) and wait for it to finish
+* Open the `Diablo.exe` (version 1.09b in IDA) and wait for it to finish
   analysis
   * Open as "Portable Executable"
   * Processor type i386 (80386)
@@ -175,7 +179,7 @@ docker run --rm -v $(pwd):/root/devilution --entrypoint "/usr/bin/wine" diasurgi
 
 Install dependencies:
 1. Install Wine if not on Windows (e.g. `sudo pacman -S wine`)
-2. Install MS VC+ 5 + SP3 and MS VC+ 6 + SP5 + PP. (for more information see the [building instructions](https://github.com/diasurgical/devil-nightly#building-with-visual-c-6) of the readme)
+2. Install MS VC+ 5 + SP3 and MS VC+ 6 + SP5 + PP. (for more information see the [building instructions](https://github.com/diasurgical/devilution/#compiling) of the readme)
 
 Install `devililution-comparer` from release (or from source below):
 1. Download and extract the latest release from https://github.com/diasurgical/devilution-comparer/releases

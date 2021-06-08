@@ -1,6 +1,4 @@
-VC5_DIR ?= $(HOME)/DevStudio_5.10/VC
-
-# The $(VS6_DIR) directory is a copy of the "Microsoft Visual Studio" directory.
+# The $(VC5_DIR)/.. and $(VS6_DIR) directories are copies "Microsoft Visual Studio".
 #
 # To get a working setup on Linux or other "portable" copies of VS,
 # the following DLLs have to be copied to the
@@ -20,57 +18,81 @@ VC6_BIN_DIR = $(VC6_DIR)/Bin
 VC6_INC_DIR = $(VC6_DIR)/Include
 VC6_LIB_DIR = $(VC6_DIR)/Lib
 
+VC5_DIR ?= $(HOME)/DevStudio_5.10/VC
+
+VC5_BIN_DIR = $(VC5_DIR)/bin
+VC5_INC_DIR = $(VC5_DIR)/include
 VC5_LIB_DIR = $(VC5_DIR)/lib
 
 IDE_DIR ?= $(VS6_DIR)/Common/MSDev98
 IDE_BIN_DIR = $(IDE_DIR)/bin
 ifeq ($(OS),Windows_NT)
-	CL = $(VC6_BIN_DIR)/CL.EXE
+	CL5 = $(VC5_BIN_DIR)/CL.EXE
+	CL6 = $(VC6_BIN_DIR)/CL.EXE
 	RC = $(IDE_BIN_DIR)/RC.EXE
-	VC5_LINK = $(VC5_DIR)/bin/link.exe
+	VC5_LINK = $(VC5_BIN_DIR)/link.exe
 	VC6_LINK = $(VC6_BIN_DIR)/link.exe
 else
-	CL = wine $(VC6_BIN_DIR)/CL.EXE
+	CL5 = wine $(VC5_BIN_DIR)/CL.EXE
+	CL6 = wine $(VC6_BIN_DIR)/CL.EXE
 	RC = wine $(IDE_BIN_DIR)/RC.EXE
-	VC5_LINK = wine $(VC5_DIR)/bin/link.exe
+	VC5_LINK = wine $(VC5_BIN_DIR)/link.exe
 	VC6_LINK = wine $(VC6_BIN_DIR)/link.exe
 endif
 
-CFLAGS=/nologo /c /GX /W3 /O1 /I $(VC6_INC_DIR) /FD /MT /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"Diablo.pch" /YX /Gm /Zi
+ifeq ($(HELLFIRE),1)
+	CL = $(CL5)
+	VC_INC_DIR = $(VC5_INC_DIR)
+else
+	CL = $(CL6)
+	VC_INC_DIR = $(VC6_INC_DIR)
+endif
+
+CFLAGS=/nologo /c /GX /W3 /O1 /I $(VC_INC_DIR) /FD /Gr /MT /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"Diablo.pch" /YX /G5 /Zi /FAs
 LINKFLAGS=/nologo /subsystem:windows /machine:I386 /incremental:no
 
+ifeq ($(HELLFIRE),1)
+	CFLAGS += /D "HELLFIRE"
+endif
+
+ifeq ($(SPAWN),1)
+	CFLAGS += /D "SPAWN"
+endif
+
 ifeq ($(MAKE_BUILD),pdb)
+ifeq ($(HELLFIRE),1)
+	VC_LINK = $(VC5_LINK)
+	LINKFLAGS += /pdb:"hellfire.pdb" /LIBPATH:$(VC5_LIB_DIR) /debug
+else
 	VC_LINK = $(VC6_LINK)
 	LINKFLAGS += /pdb:"Diablo.pdb" /LIBPATH:$(VC6_LIB_DIR) /debug
+endif
 else
-	VC_LINK=$(VC5_LINK)
-	LINKFLAGS+= /LIBPATH:$(VC5_LIB_DIR)
+	VC_LINK = $(VC5_LINK)
+	LINKFLAGS += /LIBPATH:$(VC5_LIB_DIR)
 endif
 
 all: Diablo.exe
 
-# fix compilation order to match the VC6 workspace files
-DIABLO_SRC=$(sort $(filter-out Source/render.cpp, $(wildcard Source/*.cpp)))
+debug: CFLAGS += /D "_DEBUG"
+debug: Diablo.exe
+
+# fix compilation order to match the VC6 workspace files and exclude local assembly functions
+DIABLO_SRC=$(sort $(filter-out Source/_asm.cpp Source/_render.cpp Source/render.cpp, $(wildcard Source/*.cpp)))
 DIABLO_SRC += Source/render.cpp
 OBJS=$(DIABLO_SRC:.cpp=.obj)
 
-PKWARE_SRC=$(sort $(wildcard 3rdParty/PKWare/*.cpp))
-PKWARE_OBJS=$(PKWARE_SRC:.cpp=.obj)
+Diablo.exe: main_files diablo.res DiabloUI/diabloui.lib 3rdParty/Storm/storm.lib 3rdParty/PKWare/pkware.lib
+	$(VC_LINK) /OUT:$@ $(LINKFLAGS) $(OBJS) diablo.res DiabloUI/diabloui.lib 3rdParty/Storm/storm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib shell32.lib version.lib 3rdParty/PKWare/pkware.lib
 
-STORM_SRC=$(sort $(wildcard 3rdParty/Storm/Source/*.cpp))
-STORM_OBJS=$(STORM_SRC:.cpp=.obj)
+DiabloUI/diabloui.lib:
+	make -C DiabloUI
 
-DIABLOUI_SRC=DiabloUI/diabloui.cpp
-DIABLOUI_OBJS=$(DIABLOUI_SRC:.cpp=.obj)
+3rdParty/Storm/storm.lib:
+	make -C 3rdParty/Storm
 
-Diablo.exe: main_files $(PKWARE_OBJS) diablo.res DiabloUI/diabloui.lib 3rdParty/Storm/Source/storm.lib
-	$(VC_LINK) /OUT:$@ $(LINKFLAGS) $(OBJS) $(PKWARE_OBJS) diablo.res advapi32.lib gdi32.lib shell32.lib user32.lib version.lib DiabloUI/diabloui.lib 3rdParty/Storm/Source/storm.lib
-
-DiabloUI/diabloui.lib: $(DIABLOUI_OBJS) 3rdParty/Storm/Source/storm.lib
-	$(CL) $^ /link /LINK50COMPAT /nologo /dll /subsystem:windows /machine:I386 /LIBPATH:$(VC6_LIB_DIR) DiabloUI/diabloui.res advapi32.lib gdi32.lib shell32.lib user32.lib version.lib 3rdParty/Storm/Source/storm.lib /def:"DiabloUI/diabloui.def" /out:DiabloUI/diabloui.dll
-
-3rdParty/Storm/Source/storm.lib: $(STORM_OBJS)
-	$(CL) $^ /link /LINK50COMPAT /nologo /dll /subsystem:windows /machine:I386 /LIBPATH:$(VC6_LIB_DIR) /def:"3rdParty/Storm/Source/storm.def" /out:3rdParty/Storm/Source/storm.dll
+3rdParty/PKWare/pkware.lib:
+	make -C 3rdParty/PKWare
 
 # compiles all main source files with once compiler call
 main_files:
@@ -80,9 +102,12 @@ main_files:
 	$(CL) $(CFLAGS) /Fo$@ $<
 
 diablo.res: Diablo.rc
-	$(RC) /i $(VC6_INC_DIR) /i $(VC6_DIR)/MFC/Include /l 0x409 /fo $@ $<
+	$(RC) /i $(VC_INC_DIR) /l 0x409 /fo $@ $<
 
 clean:
-	@$(RM) -v $(OBJS) $(PKWARE_OBJS) $(STORM_OBJS) $(DIABLOUI_OBJS) DiabloUI/diabloui.{exp,lib,dll} 3rdParty/Storm/Source/storm.{exp,lib,dll}
+	@$(RM) -v $(OBJS) vc60.idb vc60.pdb Diablo.pdb Diablo.pch vc50.idb vc50.pdb hellfire.pdb
+	make -C DiabloUI clean
+	make -C 3rdParty/Storm clean
+	make -C 3rdParty/PKWare clean
 
 .PHONY: clean all
